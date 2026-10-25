@@ -1,88 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
-    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Roshetta</title>
-    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
-    <style id="expo-reset">
-      /* These styles make the body full-height */
-      html,
-      body {
-        height: 100%;
-      }
-      /* These styles disable body scrolling if you are using <ScrollView> */
-      body {
-        overflow: hidden;
-      }
-      /* These styles make the root element full-height */
-      #root {
-        display: flex;
-        height: 100%;
-        flex: 1;
-      }
-    </style>
-  <link rel="icon" href="/favicon.ico"/>
-    <!-- Preload Critical Icon Fonts for Instant Zero-Flicker Rendering -->
-    <link rel="preload" href="/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ca4b48e04dc1ce10bfbddb262c8b835f.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover" />
+    <title>روشتة - Roshetta</title>
+    <link rel="icon" href="/favicon.ico" />
 
-    <!-- Vector Icons Font Faces -->
+    <!-- Preload Critical Icon Fonts for Instant Display -->
+    <link rel="preload" href="/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ca4b48e04dc1ce10bfbddb262c8b835f.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+
+    <!-- Vector Icons Font Faces (Served from /assets/vendor/) -->
     <style id="vector-icons-fonts">
       @font-face {
         font-family: 'feather';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ca4b48e04dc1ce10bfbddb262c8b835f.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ca4b48e04dc1ce10bfbddb262c8b835f.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'Feather';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ca4b48e04dc1ce10bfbddb262c8b835f.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Feather.ca4b48e04dc1ce10bfbddb262c8b835f.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'FontAwesome5Free-Regular';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.1f77739ca9ff2188b539c36f30ffa2be.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Regular.1f77739ca9ff2188b539c36f30ffa2be.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'FontAwesome5Free-Solid';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.605ed7926cf39a2ad5ec2d1f9d391d3d.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Solid.605ed7926cf39a2ad5ec2d1f9d391d3d.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'FontAwesome5Brands-Regular';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.3b89dd103490708d19a95adcae52210e.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome5_Brands.3b89dd103490708d19a95adcae52210e.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'Ionicons';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.b4eb097d35f44ed943676fd56f6bdc51.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.b4eb097d35f44ed943676fd56f6bdc51.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'ionicons';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.b4eb097d35f44ed943676fd56f6bdc51.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.b4eb097d35f44ed943676fd56f6bdc51.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'MaterialIcons';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.4e85bc9ebe07e0340c9c4fc2f6c38908.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.4e85bc9ebe07e0340c9c4fc2f6c38908.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'Material Icons';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.4e85bc9ebe07e0340c9c4fc2f6c38908.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialIcons.4e85bc9ebe07e0340c9c4fc2f6c38908.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'MaterialCommunityIcons';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.6e435534bd35da5fef04168860a9b8fa.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.6e435534bd35da5fef04168860a9b8fa.ttf') format('truetype');
         font-display: block;
       }
       @font-face {
         font-family: 'Material Design Icons';
-        src: url('/assets/node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.6e435534bd35da5fef04168860a9b8fa.ttf') format('truetype');
+        src: url('/assets/vendor/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.6e435534bd35da5fef04168860a9b8fa.ttf') format('truetype');
         font-display: block;
+      }
+    </style>
+
+    <!-- Global Layout & Responsive Desktop Simulator Wrapper -->
+    <style id="expo-reset">
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #0F172A;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        overflow: hidden;
+      }
+      #root {
+        display: flex;
+        height: 100%;
+        width: 100%;
+        flex: 1;
+      }
+
+      /* Desktop Simulator Frame: When opened on PC/Desktop, display as a smartphone simulator */
+      @media (min-width: 768px) {
+        body {
+          background: radial-gradient(circle at 50% 20%, #1E293B 0%, #0A0F1D 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 20px 0;
+          box-sizing: border-box;
+        }
+        #root {
+          max-width: 430px;
+          height: 100%;
+          max-height: 900px;
+          margin: auto;
+          box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
+          border-radius: 36px;
+          overflow: hidden;
+          border: 6px solid #1E293B;
+          position: relative;
+        }
       }
     </style>
 
@@ -92,16 +118,10 @@
     <meta name="apple-mobile-web-app-title" content="روشتة" />
     <link rel="apple-touch-icon" href="/assets/assets/logo.8f390e1f7259bf8cd5b34a7dc1e4313b.jpg" />
     <link rel="manifest" href="/manifest.json" />
-
   </head>
-
   <body>
-    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <!-- The root element for your Expo app. -->
+    <noscript>يجب تفعيل الجافاسكربت لتشغيل تطبيق روشتة.</noscript>
     <div id="root"></div>
-  <script src="/_expo/static/js/web/index-bc96910e93853c7baf984d76232ad77e.js" defer></script>
-</body>
+    <script src="/_expo/static/js/web/index-bc96910e93853c7baf984d76232ad77e.js" defer></script>
+  </body>
 </html>
