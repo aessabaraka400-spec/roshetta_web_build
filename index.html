@@ -15,6 +15,11 @@
     <meta name="theme-color" content="#093764" />
     <meta name="application-name" content="Roshetta" />
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
     <!-- Icons & Manifest -->
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -27,6 +32,51 @@
     <style id="expo-reset">
       * {
         box-sizing: border-box;
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: optimizeLegibility !important;
+      }
+      @font-face {
+        font-family: 'IBMPlexSansArabic_400Regular';
+        src: local('IBM Plex Sans Arabic'), url('https://fonts.gstatic.com/s/ibmplexsansarabic/v12/m8I1jaW6PJSTVsU7H6XgJ4Zk0VTei3Wfx2n9.woff2') format('woff2');
+        font-weight: 400;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'IBMPlexSansArabic_500Medium';
+        src: local('IBM Plex Sans Arabic Medium'), local('IBM Plex Sans Arabic'), url('https://fonts.gstatic.com/s/ibmplexsansarabic/v12/m8IzjaW6PJSTVsU7H6XgJ4Zk0VTei3WfT8SAvW0.woff2') format('woff2');
+        font-weight: 500;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'IBMPlexSansArabic_600SemiBold';
+        src: local('IBM Plex Sans Arabic SemiBold'), local('IBM Plex Sans Arabic'), url('https://fonts.gstatic.com/s/ibmplexsansarabic/v12/m8IzjaW6PJSTVsU7H6XgJ4Zk0VTei3WfV8WAvW0.woff2') format('woff2');
+        font-weight: 600;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'IBMPlexSansArabic_700Bold';
+        src: local('IBM Plex Sans Arabic Bold'), local('IBM Plex Sans Arabic'), url('https://fonts.gstatic.com/s/ibmplexsansarabic/v12/m8IzjaW6PJSTVsU7H6XgJ4Zk0VTei3WfRsWAvW0.woff2') format('woff2');
+        font-weight: 700;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'IBMPlexMono_500Medium';
+        src: local('IBM Plex Mono Medium'), local('IBM Plex Mono'), url('https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n1ioSJlR1gMo.woff2') format('woff2');
+        font-weight: 500;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'IBMPlexMono_600SemiBold';
+        src: local('IBM Plex Mono SemiBold'), local('IBM Plex Mono'), url('https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n3isSJlR1gMo.woff2') format('woff2');
+        font-weight: 600;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'IBMPlexMono_700Bold';
+        src: local('IBM Plex Mono Bold'), local('IBM Plex Mono'), url('https://fonts.gstatic.com/s/ibmplexmono/v19/-F6qfjptAgt5VM-kVkqdyU8n6ysSJlR1gMo.woff2') format('woff2');
+        font-weight: 700;
+        font-display: swap;
       }
       html, body {
         width: 100%;
@@ -35,7 +85,7 @@
         padding: 0;
         overflow: hidden;
         background-color: #0F172A;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", "IBMPlexSansArabic_400Regular", sans-serif;
+        font-family: "IBMPlexSansArabic_500Medium", "IBM Plex Sans Arabic", "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
       #root {
         display: flex;
@@ -56,7 +106,7 @@
     <div id="root"></div>
 
     <!-- Active Bundle -->
-    <script src="/_expo/static/js/web/index-2775d1d8fe71e9b38bbd0a9711c6ea23.js" defer></script>
+    <script src="/_expo/static/js/web/index-c91db388479b9a6bbb32e7ba63a77a9d.js" defer></script>
 
     <!-- Service Worker Registration -->
     <script>
