@@ -1,37 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Roshetta</title>
-    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>روشتة - المنظومة الصيدلانية الموحدة</title>
+    <meta name="description" content="نظام إدارة الصيدليات ونقاط البيع المتكامل - روشتة" />
+    
+    <!-- PWA & Mobile Meta Tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Roshetta" />
+    <meta name="theme-color" content="#093764" />
+    <meta name="application-name" content="Roshetta" />
+
+    <!-- Icons & Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
+
     <style id="expo-reset">
-      /* These styles make the body full-height */
-      html,
-      body {
+      * {
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 100%;
         height: 100%;
-      }
-      /* These styles disable body scrolling if you are using <ScrollView> */
-      body {
+        margin: 0;
+        padding: 0;
         overflow: hidden;
+        background-color: #0F172A;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Cairo", "IBMPlexSansArabic_400Regular", sans-serif;
       }
-      /* These styles make the root element full-height */
       #root {
         display: flex;
+        width: 100%;
         height: 100%;
         flex: 1;
+        margin: 0;
+        padding: 0;
       }
     </style>
-  <link rel="icon" href="/favicon.ico"/></head>
-
+  </head>
   <body>
-    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
     <noscript>
-      You need to enable JavaScript to run this app.
+      <div style="padding: 30px; text-align: center; color: #FFF; font-family: sans-serif;">
+        يرجى تفعيل الجافاسكريبت لتشغيل تطبيق روشتة.
+      </div>
     </noscript>
-    <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/_expo/static/js/web/index-2df09b42a7886082b2eb9a6c82ae36db.js" defer></script>
-</body>
+
+    <!-- Active Bundle -->
+    <script src="/_expo/static/js/web/index-2df09b42a7886082b2eb9a6c82ae36db.js" defer></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js', { scope: '/' })
+            .then(function(reg) {
+              console.log('[Roshetta PWA] ServiceWorker registered with scope:', reg.scope);
+            })
+            .catch(function(err) {
+              console.warn('[Roshetta PWA] ServiceWorker registration error:', err);
+            });
+        });
+      }
+    </script>
+  </body>
 </html>

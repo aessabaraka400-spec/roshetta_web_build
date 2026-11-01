@@ -1,17 +1,33 @@
 {
-  "short_name": "روشتة",
-  "name": "روشتة - المنظومة الصيدلانية الموحدة",
-  "icons": [
-    {
-      "src": "/assets/assets/logo.8f390e1f7259bf8cd5b34a7dc1e4313b.jpg",
-      "type": "image/jpeg",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
+  "name": "روشيتة - المنظومة الصيدلانية الموحدة",
+  "short_name": "روشيتة",
+  "description": "نظام إدارة الصيدليات ونقاط البيع المتكامل - روشيتة",
   "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "ar",
+  "dir": "rtl",
   "background_color": "#093764",
   "theme_color": "#093764",
-  "display": "standalone",
-  "orientation": "portrait"
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
