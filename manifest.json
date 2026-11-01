@@ -7,7 +7,7 @@
   "display": "standalone",
   "orientation": "portrait",
   "lang": "ar",
-  "dir": "rtl",
+  "dir": "ltr",
   "background_color": "#093764",
   "theme_color": "#093764",
   "icons": [
