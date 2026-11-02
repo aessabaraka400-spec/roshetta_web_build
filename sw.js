@@ -11,7 +11,7 @@ const PRECACHE_ASSETS = [
   '/apple-touch-icon-precomposed.png',
   '/icon-192.png',
   '/icon-512.png',
-  '/_expo/static/js/web/index-e95f4f5936ec875bf20230a279d432c4.js'
+  '/_expo/static/js/web/index-686f84920783e56c1cf8d92590950502.js'
 ];
 
 // Install: precache application shell with fault tolerance
