@@ -111,15 +111,16 @@
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js', { scope: '/' })
-            .then(function(reg) {
-              console.log('[Roshetta PWA] ServiceWorker registered with scope:', reg.scope);
-            })
-            .catch(function(err) {
-              console.warn('[Roshetta PWA] ServiceWorker registration error:', err);
-            });
-        });
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
+          .then(function(reg) {
+            console.log('[Roshetta PWA] ServiceWorker registered with scope:', reg.scope);
+            if (navigator.onLine && reg.update) {
+              reg.update();
+            }
+          })
+          .catch(function(err) {
+            console.warn('[Roshetta PWA] ServiceWorker registration error:', err);
+          });
       }
     </script>
   </body>

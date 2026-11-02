@@ -1,11 +1,10 @@
-// Roshetta PWA Service Worker v1.0.0
-// Offline-first caching for static assets, network-first for navigation, network-only for APIs.
+// Roshetta PWA Service Worker v4.0.0
+// Offline-First SPA Architecture with Background Sync and Stale-While-Revalidate
 
-const CACHE_NAME = 'roshetta-pwa-v3';
+const CACHE_NAME = 'roshetta-pwa-v4';
 
 const PRECACHE_ASSETS = [
   '/',
-  '/index.html',
   '/manifest.json',
   '/favicon.ico',
   '/apple-touch-icon.png',
@@ -15,23 +14,37 @@ const PRECACHE_ASSETS = [
   '/_expo/static/js/web/index-8705614cb3380f31bf73b2506802eb39.js'
 ];
 
-// Install: precache application shell
+// Install: precache application shell with fault tolerance
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_ASSETS).catch((err) => {
-        console.warn('[SW] Precache partial warning:', err);
-      });
-    })
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      await Promise.allSettled(
+        PRECACHE_ASSETS.map(async (url) => {
+          try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (res && res.status === 200) {
+              await cache.put(url, res.clone());
+              if (url === '/') {
+                await cache.put('/index.html', res.clone());
+              }
+            }
+          } catch (e) {
+            console.warn('[SW] Precache item failed:', url, e.message);
+          }
+        })
+      );
+    })()
   );
 });
 
-// Activate: clean up outdated caches
+// Activate: clean up outdated caches and immediately take control
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(
         keys.map((key) => {
           if (key !== CACHE_NAME) {
             console.log('[SW] Deleting old cache:', key);
@@ -39,7 +52,8 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim())
+      await self.clients.claim();
+    })()
   );
 });
 
@@ -54,7 +68,7 @@ self.addEventListener('fetch', (event) => {
   }
 
   // 2. Bypass API calls and browser extensions
-  // (API data is persisted in browser localStorage via Zustand)
+  // (API data is persisted in browser localStorage / IndexedDB via Zustand)
   if (
     url.pathname.startsWith('/api') ||
     url.hostname.includes('alwaysdata.net') ||
@@ -64,52 +78,104 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 3. Navigation requests (HTML pages / Route changes / Page refresh)
-  // Network-First with Offline Cache Fallback
+  // 3. Navigation requests (HTML pages / Route changes / Page refresh / PWA Launch)
+  // App Shell Strategy: Serve cached index.html immediately for 0ms offline startup,
+  // then update in background if online.
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response && response.status === 200) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-          }
-          return response;
-        })
-        .catch(async () => {
-          // Fallback to cached index.html when offline
-          const cached = await caches.match('/index.html') || await caches.match('/');
+      (async () => {
+        try {
+          // Check cache first for instant load
+          const cache = await caches.open(CACHE_NAME);
+          const cached = await cache.match('/') || 
+                         await cache.match('/index.html') || 
+                         await caches.match(request);
+
+          // Background revalidation
+          const fetchPromise = fetch(request).then(async (response) => {
+            if (response && response.status === 200) {
+              await cache.put('/', response.clone());
+              await cache.put('/index.html', response.clone());
+            }
+            return response;
+          }).catch(() => null);
+
+          // If cached, return immediately!
           if (cached) {
             return cached;
           }
-          return new Response('Offline - Roshetta Pharmacy', {
-            status: 503,
-            statusText: 'Service Unavailable',
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-          });
-        })
+
+          // If not yet in cache, await network
+          const networkResponse = await fetchPromise;
+          if (networkResponse) {
+            return networkResponse;
+          }
+
+          // Search any existing caches for fallback
+          const allKeys = await caches.keys();
+          for (const key of allKeys) {
+            const oldCache = await caches.open(key);
+            const fallback = await oldCache.match('/') || await oldCache.match('/index.html');
+            if (fallback) return fallback;
+          }
+        } catch (err) {
+          console.warn('[SW] Navigation error:', err);
+        }
+
+        // Inline fallback shell (never 503 or ERR_FAILED)
+        return new Response('<!DOCTYPE html><html><head><meta charset="utf-8"><title>روشتة</title></head><body style="background:#0F172A;color:#FFF;text-align:center;padding:40px;font-family:sans-serif;"><h2>روشتة - المنظومة غير متصلة</h2><p>يرجى فتح التطبيق مرة واحدة أثناء الاتصال بالإنترنت لتثبيت ملفات التشغيل بدون إنترنت.</p></body></html>', {
+          status: 200,
+          headers: { 'Content-Type': 'text/html; charset=utf-8' }
+        });
+      })()
     );
     return;
   }
 
   // 4. Static assets (JS, CSS, fonts, images)
-  // Stale-While-Revalidate: Return cached immediately, fetch & update cache in background
+  // Cache-First with Stale-While-Revalidate background update
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      const fetchPromise = fetch(request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const copy = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          // If network fails, cachedResponse will be returned
-          return cachedResponse;
-        });
+    (async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME);
+        const cached = await cache.match(request) || await caches.match(request);
+        if (cached) {
+          // Revalidate in background
+          fetch(request).then(async (networkResponse) => {
+            if (networkResponse && networkResponse.status === 200) {
+              await cache.put(request, networkResponse);
+            }
+          }).catch(() => {});
+          return cached;
+        }
 
-      return cachedResponse || fetchPromise;
-    })
+        // Bundle fallback: if a JS bundle is requested but hash differs, return the cached JS bundle
+        if (url.pathname.includes('/_expo/static/js/web/index-')) {
+          const keys = await cache.keys();
+          const jsKey = keys.find(k => k.url.includes('/_expo/static/js/web/index-'));
+          if (jsKey) {
+            const fallbackJs = await cache.match(jsKey);
+            if (fallbackJs) return fallbackJs;
+          }
+        }
+
+        // Fetch from network
+        const networkResponse = await fetch(request);
+        if (networkResponse && networkResponse.status === 200) {
+          cache.put(request, networkResponse.clone());
+        }
+        return networkResponse;
+      } catch (e) {
+        // Fallback for failed network requests when offline:
+        if (request.destination === 'image' || url.pathname.endsWith('.png') || url.pathname.endsWith('.jpg') || url.pathname.endsWith('.ico')) {
+          // Transparent 1x1 pixel PNG
+          return new Response(
+            new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, 0, 0, 0, 31, 21, 196, 137, 0, 0, 0, 10, 73, 68, 65, 84, 120, 156, 99, 0, 1, 0, 0, 5, 0, 1, 13, 10, 45, 180, 0, 0, 0, 0, 73, 69, 78, 68, 174, 66, 96, 130]),
+            { status: 200, headers: { 'Content-Type': 'image/png' } }
+          );
+        }
+        return new Response('', { status: 200, headers: { 'Content-Type': 'text/plain' } });
+      }
+    })()
   );
 });
