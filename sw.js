@@ -1,7 +1,7 @@
 // Roshetta PWA Service Worker v1.0.0
 // Offline-first caching for static assets, network-first for navigation, network-only for APIs.
 
-const CACHE_NAME = 'roshetta-pwa-v2';
+const CACHE_NAME = 'roshetta-pwa-v3';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -12,7 +12,7 @@ const PRECACHE_ASSETS = [
   '/apple-touch-icon-precomposed.png',
   '/icon-192.png',
   '/icon-512.png',
-  '/_expo/static/js/web/index-ca620b3031cf76d1d0f90b6042d79fac.js'
+  '/_expo/static/js/web/index-8705614cb3380f31bf73b2506802eb39.js'
 ];
 
 // Install: precache application shell
