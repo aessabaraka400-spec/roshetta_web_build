@@ -1,7 +1,7 @@
 // Roshetta PWA Service Worker v4.0.0
 // Offline-First SPA Architecture with Background Sync and Stale-While-Revalidate
 
-const CACHE_NAME = 'roshetta-pwa-v10';
+const CACHE_NAME = 'roshetta-pwa-v11';
 
 const PRECACHE_ASSETS = [
   '/',
@@ -79,43 +79,41 @@ self.addEventListener('fetch', (event) => {
   }
 
   // 3. Navigation requests (HTML pages / Route changes / Page refresh / PWA Launch)
-  // App Shell Strategy: Serve cached index.html immediately for 0ms offline startup,
-  // then update in background if online.
+  // Network-First with 3s timeout & offline cache fallback so new deployments take effect on refresh.
   if (request.mode === 'navigate') {
     event.respondWith(
       (async () => {
+        const cache = await caches.open(CACHE_NAME);
         try {
-          // Check cache first for instant load
-          const cache = await caches.open(CACHE_NAME);
-          const cached = await cache.match('/') || 
-                         await cache.match('/index.html') || 
-                         await caches.match(request);
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 3000);
+          const networkResponse = await fetch(request, {
+            cache: 'no-cache',
+            signal: controller.signal,
+          });
+          clearTimeout(timer);
+          if (networkResponse && networkResponse.status === 200) {
+            await cache.put('/', networkResponse.clone());
+            await cache.put('/index.html', networkResponse.clone());
+            return networkResponse;
+          }
+        } catch (err) {
+          // Offline or slow network -> fall through to cached shell
+        }
 
-          // Background revalidation
-          const fetchPromise = fetch(request).then(async (response) => {
-            if (response && response.status === 200) {
-              await cache.put('/', response.clone());
-              await cache.put('/index.html', response.clone());
-            }
-            return response;
-          }).catch(() => null);
-
-          // If cached, return immediately!
+        try {
+          const cached =
+            (await cache.match('/')) ||
+            (await cache.match('/index.html')) ||
+            (await cache.match(request));
           if (cached) {
             return cached;
           }
 
-          // If not yet in cache, await network
-          const networkResponse = await fetchPromise;
-          if (networkResponse) {
-            return networkResponse;
-          }
-
-          // Search any existing caches for fallback
           const allKeys = await caches.keys();
           for (const key of allKeys) {
             const oldCache = await caches.open(key);
-            const fallback = await oldCache.match('/') || await oldCache.match('/index.html');
+            const fallback = (await oldCache.match('/')) || (await oldCache.match('/index.html'));
             if (fallback) return fallback;
           }
         } catch (err) {
@@ -138,7 +136,7 @@ self.addEventListener('fetch', (event) => {
     (async () => {
       try {
         const cache = await caches.open(CACHE_NAME);
-        const cached = await cache.match(request) || await caches.match(request);
+        const cached = await cache.match(request);
         if (cached) {
           // Revalidate in background
           fetch(request).then(async (networkResponse) => {
