@@ -1,127 +1,37 @@
 <!DOCTYPE html>
-<html lang="ar" dir="ltr">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-    <title>روشتة - المنظومة الصيدلانية الموحدة</title>
-    <meta name="description" content="نظام إدارة الصيدليات ونقاط البيع المتكامل - روشتة" />
-    
-    <!-- PWA & Mobile Meta Tags -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="Roshetta" />
-    <meta name="theme-color" content="#093764" />
-    <meta name="application-name" content="Roshetta" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
-
-    <!-- Icons & Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-    <link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Roshetta</title>
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
     <style id="expo-reset">
-      * {
-        box-sizing: border-box;
-        -webkit-font-smoothing: antialiased !important;
-        -moz-osx-font-smoothing: grayscale !important;
-        text-rendering: optimizeLegibility !important;
-      }
-      @font-face {
-        font-family: 'IBMPlexSansArabic_400Regular';
-        src: local('IBM Plex Sans Arabic'), url('/assets/vendor/@expo-google-fonts/ibm-plex-sans-arabic/400Regular/IBMPlexSansArabic_400Regular.ba73b8c18f3ecabea995bfe7535607e1.ttf') format('truetype');
-        font-weight: 400;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'IBMPlexSansArabic_500Medium';
-        src: local('IBM Plex Sans Arabic Medium'), local('IBM Plex Sans Arabic'), url('/assets/vendor/@expo-google-fonts/ibm-plex-sans-arabic/500Medium/IBMPlexSansArabic_500Medium.daa38886b4ccd0f6e51cf6d2f5c6fb92.ttf') format('truetype');
-        font-weight: 500;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'IBMPlexSansArabic_600SemiBold';
-        src: local('IBM Plex Sans Arabic SemiBold'), local('IBM Plex Sans Arabic'), url('/assets/vendor/@expo-google-fonts/ibm-plex-sans-arabic/600SemiBold/IBMPlexSansArabic_600SemiBold.719a0ad23789571b3e5f40f95e50c791.ttf') format('truetype');
-        font-weight: 600;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'IBMPlexSansArabic_700Bold';
-        src: local('IBM Plex Sans Arabic Bold'), local('IBM Plex Sans Arabic'), url('/assets/vendor/@expo-google-fonts/ibm-plex-sans-arabic/700Bold/IBMPlexSansArabic_700Bold.db14cbdd87f0e4ad48c703f5313038f3.ttf') format('truetype');
-        font-weight: 700;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'IBMPlexMono_500Medium';
-        src: local('IBM Plex Mono Medium'), local('IBM Plex Mono'), url('/assets/vendor/@expo-google-fonts/ibm-plex-mono/500Medium/IBMPlexMono_500Medium.eddb5e5647bc7910fd2417321769f58d.ttf') format('truetype');
-        font-weight: 500;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'IBMPlexMono_600SemiBold';
-        src: local('IBM Plex Mono SemiBold'), local('IBM Plex Mono'), url('/assets/vendor/@expo-google-fonts/ibm-plex-mono/600SemiBold/IBMPlexMono_600SemiBold.7a81255a8c5109e19bab1a2f27d49d1c.ttf') format('truetype');
-        font-weight: 600;
-        font-display: swap;
-      }
-      @font-face {
-        font-family: 'IBMPlexMono_700Bold';
-        src: local('IBM Plex Mono Bold'), local('IBM Plex Mono'), url('/assets/vendor/@expo-google-fonts/ibm-plex-mono/700Bold/IBMPlexMono_700Bold.9d4c2f370e8ffd92a0da7d67c6e9d40f.ttf') format('truetype');
-        font-weight: 700;
-        font-display: swap;
-      }
-      html, body {
-        width: 100%;
+      /* These styles make the body full-height */
+      html,
+      body {
         height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #0F172A;
-        font-family: "IBMPlexSansArabic_500Medium", "IBM Plex Sans Arabic", "Cairo", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
       #root {
         display: flex;
-        width: 100%;
         height: 100%;
         flex: 1;
-        margin: 0;
-        padding: 0;
       }
     </style>
-  </head>
+  <link rel="icon" href="/favicon.ico"/></head>
+
   <body>
+    <!-- Use static rendering with Expo Router to support running without JavaScript. -->
     <noscript>
-      <div style="padding: 30px; text-align: center; color: #FFF; font-family: sans-serif;">
-        يرجى تفعيل الجافاسكريبت لتشغيل تطبيق روشتة.
-      </div>
+      You need to enable JavaScript to run this app.
     </noscript>
+    <!-- The root element for your Expo app. -->
     <div id="root"></div>
-
-    <!-- Active Bundle -->
-    <script src="/_expo/static/js/web/index-a342875791fb515e79e14a9860887025.js" defer></script>
-
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' })
-          .then(function(reg) {
-            console.log('[Roshetta PWA] ServiceWorker registered with scope:', reg.scope);
-            if (navigator.onLine && reg.update) {
-              reg.update();
-            }
-          })
-          .catch(function(err) {
-            console.warn('[Roshetta PWA] ServiceWorker registration error:', err);
-          });
-      }
-    </script>
-  </body>
+  <script src="/_expo/static/js/web/index-fe3a60b4a5e7803aeca109c8ec899458.js" defer></script>
+</body>
 </html>
